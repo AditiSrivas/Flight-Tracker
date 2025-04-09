@@ -1,0 +1,65 @@
+[
+  {
+    "flightNumber": "AI101",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departureTime": 1712544000,
+    "arrivalTime": 1712548500,
+    "delayMinutes": 15,
+    "date": "2025-04-08"
+  },
+  {
+    "flightNumber": "6E202",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departureTime": 1712551200,
+    "arrivalTime": 1712556000,
+    "delayMinutes": 5,
+    "date": "2025-04-08"
+  },
+  {
+    "flightNumber": "UK303",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departureTime": 1712562000,
+    "arrivalTime": 1712566800,
+    "delayMinutes": 20,
+    "date": "2025-04-08"
+  },
+  {
+    "flightNumber": "SG404",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departureTime": 1712572800,
+    "arrivalTime": 1712577300,
+    "delayMinutes": 10,
+    "date": "2025-04-08"
+  },
+  {
+    "flightNumber": "AI505",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departureTime": 1712580000,
+    "arrivalTime": 1712584500,
+    "delayMinutes": 0,
+    "date": "2025-04-08"
+  },
+  {
+    "flightNumber": "6E606",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departureTime": 1712587200,
+    "arrivalTime": 1712591700,
+    "delayMinutes": 25,
+    "date": "2025-04-08"
+  },
+  {
+    "flightNumber": "UK707",
+    "origin": "Delhi",
+    "destination": "Mumbai",
+    "departureTime": 1712594400,
+    "arrivalTime": 1712598600,
+    "delayMinutes": 5,
+    "date": "2025-04-08"
+  }
+]
