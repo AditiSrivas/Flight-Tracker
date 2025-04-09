@@ -26,7 +26,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-/* Aviation API Key:
-* 8d8827ad6d30004c57a31bd5a3b5fbe3
-* */

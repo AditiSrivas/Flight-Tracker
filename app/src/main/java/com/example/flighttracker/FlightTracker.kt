@@ -2,6 +2,9 @@ package com.example.flighttracker
 
 import android.os.Bundle
 import android.util.Log
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -12,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -60,6 +64,7 @@ fun FlightTrackerApp(viewModel: FlightViewModel = viewModel()) {
         )
     }
     var expanded by remember { mutableStateOf(false) }
+    var showWebView by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -114,7 +119,7 @@ fun FlightTrackerApp(viewModel: FlightViewModel = viewModel()) {
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
                 onClick = {
@@ -123,6 +128,13 @@ fun FlightTrackerApp(viewModel: FlightViewModel = viewModel()) {
                 }
             ) {
                 Text("Track Flight")
+            }
+            Button(
+                onClick = {
+                    showWebView = !showWebView
+                }
+            ) {
+                Text(if (showWebView) "Show Details" else "Show Map")
             }
         }
 
@@ -141,13 +153,46 @@ fun FlightTrackerApp(viewModel: FlightViewModel = viewModel()) {
                 ErrorMessage(uiState.error!!)
             }
             uiState.flightData != null -> {
-                LazyColumn {
-                    item {
-                        FlightDetails(flightData = uiState.flightData!!, isTracking = uiState.isTracking)
+                if (showWebView) {
+                    GoogleFlightTracker(uiState.flightNumber)
+                } else {
+                    LazyColumn {
+                        item {
+                            FlightDetails(flightData = uiState.flightData!!, isTracking = uiState.isTracking)
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun GoogleFlightTracker(flightNumber: String) {
+    val googleFlightUrl = "https://www.google.com/search?q=flight+$flightNumber"
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(500.dp)
+    ) {
+        AndroidView(
+            factory = { context ->
+                WebView(context).apply {
+                    settings.javaScriptEnabled = true
+                    settings.domStorageEnabled = true
+                    webViewClient = object : WebViewClient() {
+                        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                            return false
+                        }
+                    }
+                    loadUrl(googleFlightUrl)
+                }
+            },
+            update = { webView ->
+                webView.loadUrl(googleFlightUrl)
+            }
+        )
     }
 }
 
@@ -508,7 +553,7 @@ class FlightViewModel : ViewModel() {
     val uiState: StateFlow<FlightUiState> = _uiState.asStateFlow()
 
     private val apiService: AviationStackApi
-    private val apiKey = "8d8827ad6d30004c57a31bd5a3b5fbe3" // Replace with your actual API key
+    private val apiKey = "8d8827ad6d30004c57a31bd5a3b5fbe3"
 
     init {
         val retrofit = Retrofit.Builder()
@@ -625,6 +670,7 @@ data class FlightUiState(
 )
 
 // Theme
+
 @Composable
 fun FlightTrackerTheme(
     darkTheme: Boolean = true,
